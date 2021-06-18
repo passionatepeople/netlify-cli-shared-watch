@@ -27,7 +27,7 @@ const getFunctions = async (functionsSrcDir) => {
 
 const getFunctionsAndWatchDirs = async (functionsSrcDir) => {
   if (!(await fileExistsAsync(functionsSrcDir))) {
-    return { functions: [], watchDirs: [functionsSrcDir] }
+    return { functions: [], watchDirs: [functionsSrcDir, 'shared'] }
   }
 
   // performance optimization, load '@netlify/zip-it-and-ship-it' on demand
@@ -36,7 +36,7 @@ const getFunctionsAndWatchDirs = async (functionsSrcDir) => {
 
   // get all functions files so we know which directories to watch
   const functions = await listFunctions(functionsSrcDir)
-  const watchDirs = [functionsSrcDir]
+  const watchDirs = [functionsSrcDir, 'shared']
 
   // filter for only main files to serve
   const functionsWithProps = functions.filter(({ runtime }) => runtime === JS).map((func) => addFunctionProps(func))
